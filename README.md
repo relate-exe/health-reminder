@@ -76,30 +76,7 @@ Base path `/api`. Protected routes need `Authorization: Bearer <token>`.
 
 Errors always look like `{ "success": false, "message": "...", "errors": [{ "field", "message" }] }` with status 400, 401, 404, 409, 422 or 500.
 
-## Deployment
-**1. Database:** create a free MongoDB Atlas cluster, add a database user, allow network access (0.0.0.0/0 for a demo), copy the connection string.
 
-**2. API (Render, Railway or similar):**
-- Root directory: `server`, build command `npm install`, start command `npm start`
-- Environment: `MONGO_URI`, `JWT_SECRET`, `NODE_ENV=production`, `CLIENT_URL=https://<your-frontend-url>`
-
-**3. Client (Vercel or Netlify):**
-- Root directory: `client`, build command `npm run build`, output directory `dist`
-- Environment: `VITE_API_URL=https://<your-api-url>`
-- Add a SPA rewrite so all routes serve `index.html` (Vercel: `client/vercel.json` is included; Netlify: `client/public/_redirects` is included)
-
-Then set `CLIENT_URL` on the API to the final frontend URL and redeploy it.
-
-## Push to GitHub
-```bash
-git init
-git add .
-git commit -m "HealthRecord Reminder MERN app"
-git branch -M main
-git remote add origin https://github.com/<you>/healthrecord-reminder.git
-git push -u origin main
-```
-`.env` files are git-ignored, so no secrets are committed.
 
 ## Security notes
 Passwords are hashed with bcrypt (12 rounds). Request bodies are limited to 10 KB. Auth and API routes are rate limited. The JWT is kept in `localStorage` for simplicity; for a production system, move to httpOnly cookies.
